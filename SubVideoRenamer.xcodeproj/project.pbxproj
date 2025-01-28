@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6366173F2D48DAC100209CF5 /* SerialRenamer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6366173E2D48DAC100209CF5 /* SerialRenamer.m */; };
+		636617412D48DC3F00209CF5 /* FileList.m in Sources */ = {isa = PBXBuildFile; fileRef = 636617402D48DC3F00209CF5 /* FileList.m */; };
+		636617442D49059600209CF5 /* PathManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 636617432D49059600209CF5 /* PathManager.m */; };
+		636617462D49088900209CF5 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 636617452D49088900209CF5 /* InfoViewController.m */; };
 		63CAA6A02D47F2CC00639242 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CAA69F2D47F2CC00639242 /* AppDelegate.m */; };
 		63CAA6A32D47F2CC00639242 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CAA6A22D47F2CC00639242 /* ViewController.m */; };
 		63CAA6A52D47F2CF00639242 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63CAA6A42D47F2CF00639242 /* Assets.xcassets */; };
@@ -15,6 +19,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6366173E2D48DAC100209CF5 /* SerialRenamer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SerialRenamer.m; sourceTree = "<group>"; };
+		636617402D48DC3F00209CF5 /* FileList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileList.m; sourceTree = "<group>"; };
+		636617422D49056D00209CF5 /* PathManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PathManager.h; sourceTree = "<group>"; };
+		636617432D49059600209CF5 /* PathManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PathManager.m; sourceTree = "<group>"; };
+		636617452D49088900209CF5 /* InfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
+		636617482D49091500209CF5 /* InfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
 		63CAA69B2D47F2CC00639242 /* SubVideoRenamer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubVideoRenamer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63CAA69E2D47F2CC00639242 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		63CAA69F2D47F2CC00639242 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -66,6 +76,12 @@
 				63CAA6A92D47F2CF00639242 /* Info.plist */,
 				63CAA6AA2D47F2CF00639242 /* main.m */,
 				63CAA6AC2D47F2CF00639242 /* SubVideoRenamer.entitlements */,
+				6366173E2D48DAC100209CF5 /* SerialRenamer.m */,
+				636617402D48DC3F00209CF5 /* FileList.m */,
+				636617422D49056D00209CF5 /* PathManager.h */,
+				636617432D49059600209CF5 /* PathManager.m */,
+				636617452D49088900209CF5 /* InfoViewController.m */,
+				636617482D49091500209CF5 /* InfoViewController.h */,
 			);
 			path = SubVideoRenamer;
 			sourceTree = "<group>";
@@ -139,8 +155,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				636617412D48DC3F00209CF5 /* FileList.m in Sources */,
+				6366173F2D48DAC100209CF5 /* SerialRenamer.m in Sources */,
+				636617442D49059600209CF5 /* PathManager.m in Sources */,
 				63CAA6A32D47F2CC00639242 /* ViewController.m in Sources */,
 				63CAA6AB2D47F2CF00639242 /* main.m in Sources */,
+				636617462D49088900209CF5 /* InfoViewController.m in Sources */,
 				63CAA6A02D47F2CC00639242 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
