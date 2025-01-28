@@ -18,6 +18,11 @@
 @property (weak) IBOutlet NSButton *srtCheckBox;
 @property (weak) IBOutlet NSButton *assCheckBox;
 @property (weak) IBOutlet NSButton *srtAssCheckBox;
+@property (weak) IBOutlet NSButton *mkvMp4CheckBox;
+
+
+@property (nonatomic, strong) NSArray<NSString *> *filesToList; // Property to store the files
+
 
 @end
 

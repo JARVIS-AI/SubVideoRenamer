@@ -11,6 +11,7 @@
 		636617412D48DC3F00209CF5 /* FileList.m in Sources */ = {isa = PBXBuildFile; fileRef = 636617402D48DC3F00209CF5 /* FileList.m */; };
 		636617442D49059600209CF5 /* PathManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 636617432D49059600209CF5 /* PathManager.m */; };
 		636617462D49088900209CF5 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 636617452D49088900209CF5 /* InfoViewController.m */; };
+		6366174E2D49486100209CF5 /* FileListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6366174D2D49486100209CF5 /* FileListViewController.m */; };
 		63CAA6A02D47F2CC00639242 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CAA69F2D47F2CC00639242 /* AppDelegate.m */; };
 		63CAA6A32D47F2CC00639242 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CAA6A22D47F2CC00639242 /* ViewController.m */; };
 		63CAA6A52D47F2CF00639242 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63CAA6A42D47F2CF00639242 /* Assets.xcassets */; };
@@ -25,6 +26,8 @@
 		636617432D49059600209CF5 /* PathManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PathManager.m; sourceTree = "<group>"; };
 		636617452D49088900209CF5 /* InfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
 		636617482D49091500209CF5 /* InfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
+		6366174C2D49482600209CF5 /* FileListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileListViewController.h; sourceTree = "<group>"; };
+		6366174D2D49486100209CF5 /* FileListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileListViewController.m; sourceTree = "<group>"; };
 		63CAA69B2D47F2CC00639242 /* SubVideoRenamer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubVideoRenamer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63CAA69E2D47F2CC00639242 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		63CAA69F2D47F2CC00639242 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -82,6 +85,8 @@
 				636617432D49059600209CF5 /* PathManager.m */,
 				636617452D49088900209CF5 /* InfoViewController.m */,
 				636617482D49091500209CF5 /* InfoViewController.h */,
+				6366174C2D49482600209CF5 /* FileListViewController.h */,
+				6366174D2D49486100209CF5 /* FileListViewController.m */,
 			);
 			path = SubVideoRenamer;
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 				636617442D49059600209CF5 /* PathManager.m in Sources */,
 				63CAA6A32D47F2CC00639242 /* ViewController.m in Sources */,
 				63CAA6AB2D47F2CF00639242 /* main.m in Sources */,
+				6366174E2D49486100209CF5 /* FileListViewController.m in Sources */,
 				636617462D49088900209CF5 /* InfoViewController.m in Sources */,
 				63CAA6A02D47F2CC00639242 /* AppDelegate.m in Sources */,
 			);

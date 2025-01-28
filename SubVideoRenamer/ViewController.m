@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "PathManager.h"
+#import "FileListViewController.h"
 
 @implementation ViewController
 
@@ -16,8 +17,6 @@
     
     // Do any additional setup after loading the view.
 }
-
-
 
 
 
@@ -57,19 +56,20 @@
 
 
 
+
 - (IBAction)OpenFolder:(NSButton *)sender {
     // Create an Open Panel for selecting a folder
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setCanChooseFiles:NO];        // Only allow selecting folders
     [openPanel setCanChooseDirectories:YES];
     [openPanel setAllowsMultipleSelection:NO]; // Single folder selection
+    openPanel.message = @"Open a folder containing video and SRT files.";
     
     // Display the panel and handle the result
     if ([openPanel runModal] == NSModalResponseOK) {
         NSURL *selectedFolderURL = [[openPanel URLs] firstObject];
         if (selectedFolderURL) {
-            // Do something with the selected folder path
-//            NSLog(@"Selected folder: %@", selectedFolderURL.path);
+            // Handle the selected folder path
             [self PathFolderViewWithPath:selectedFolderURL.path];
         }
     }
@@ -176,6 +176,21 @@
 
 
 - (IBAction)ResetStateBTN:(NSButton *)sender {
+    // Deselect all checkboxes
+    [self.mp4CheckBox setState:NSControlStateValueOff];
+    [self.mkvCheckBox setState:NSControlStateValueOff];
+    [self.srtCheckBox setState:NSControlStateValueOff];
+    [self.assCheckBox setState:NSControlStateValueOff];
+    [self.srtAssCheckBox setState:NSControlStateValueOff];
+    [self.mkvMp4CheckBox setState:NSControlStateValueOff];
+    
+    // Optionally, show a confirmation alert
+//    NSAlert *alert = [[NSAlert alloc] init];
+//    alert.messageText = @"Reset Successful";
+//    alert.informativeText = @"All checkboxes have been deselected.";
+//    [alert addButtonWithTitle:@"OK"];
+//    [alert setAlertStyle:NSAlertStyleInformational];
+//    [alert runModal];
 }
 
 
@@ -204,9 +219,14 @@
     [self resetCheckboxesExcept:sender];
 }
 
+- (IBAction)mkvMp4Box:(NSButton *)sender {
+    [self resetCheckboxesExcept:sender];
+}
+
+
 // Helper method to reset other checkboxes
 - (void)resetCheckboxesExcept:(NSButton *)selectedCheckbox {
-    NSArray *checkboxes = @[self.mp4CheckBox, self.mkvCheckBox, self.srtCheckBox, self.assCheckBox, self.srtAssCheckBox];
+    NSArray *checkboxes = @[self.mp4CheckBox, self.mkvCheckBox, self.srtCheckBox, self.assCheckBox, self.srtAssCheckBox, self.mkvMp4CheckBox];
     
     for (NSButton *checkbox in checkboxes) {
         if (checkbox != selectedCheckbox) {
@@ -268,6 +288,214 @@
 
 
 
+
+
+
+
+
+
+
+
+- (NSComparisonResult)naturalSortComparer:(NSString *)x with:(NSString *)y {
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(\\d+)|(\\D+)" options:0 error:nil];
+    NSArray<NSTextCheckingResult *> *xMatches = [regex matchesInString:x options:0 range:NSMakeRange(0, x.length)];
+    NSArray<NSTextCheckingResult *> *yMatches = [regex matchesInString:y options:0 range:NSMakeRange(0, y.length)];
+    
+    NSUInteger i = 0;
+    while (i < xMatches.count && i < yMatches.count) {
+        NSString *xPart = [x substringWithRange:[xMatches[i] range]];
+        NSString *yPart = [y substringWithRange:[yMatches[i] range]];
+        
+        NSInteger xNumber, yNumber;
+        BOOL xIsNumber = [[NSScanner scannerWithString:xPart] scanInteger:&xNumber];
+        BOOL yIsNumber = [[NSScanner scannerWithString:yPart] scanInteger:&yNumber];
+        
+        NSComparisonResult result;
+        if (xIsNumber && yIsNumber) {
+            result = (xNumber < yNumber) ? NSOrderedAscending : (xNumber > yNumber) ? NSOrderedDescending : NSOrderedSame;
+        } else {
+            result = [xPart caseInsensitiveCompare:yPart];
+        }
+        
+        if (result != NSOrderedSame) {
+            return result;
+        }
+        i++;
+    }
+    
+    return (xMatches.count < yMatches.count) ? NSOrderedAscending : (xMatches.count > yMatches.count) ? NSOrderedDescending : NSOrderedSame;
+}
+
+
+
+
+
+//- (NSArray<NSString *> *)listFilesInDirectory:(NSString *)directoryPath withExtensions:(NSArray<NSString *> *)extensions {
+//    NSMutableArray<NSString *> *filteredFiles = [NSMutableArray array];
+//    NSFileManager *fileManager = [NSFileManager defaultManager];
+//    NSArray<NSString *> *files = [fileManager contentsOfDirectoryAtPath:directoryPath error:nil];
+//
+//    for (NSString *file in files) {
+//        NSString *fileExtension = [[file pathExtension] lowercaseString];
+//        if ([extensions containsObject:fileExtension]) {
+//            [filteredFiles addObject:file];
+//        }
+//    }
+//    return [filteredFiles copy];
+//}
+
+- (NSArray<NSString *> *)listFilesInDirectory:(NSString *)directoryPath withExtensions:(NSArray<NSString *> *)extensions {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray<NSString *> *allFiles = [fileManager contentsOfDirectoryAtPath:directoryPath error:nil];
+    if (!extensions || extensions.count == 0) {
+        return allFiles; // Return all files if no extensions are provided
+    }
+    NSMutableArray<NSString *> *filteredFiles = [NSMutableArray array];
+    for (NSString *file in allFiles) {
+        NSString *fileExtension = [file pathExtension].lowercaseString;
+        if ([extensions containsObject:fileExtension]) {
+            [filteredFiles addObject:file];
+        }
+    }
+    return filteredFiles;
+}
+
+
+
+
+
+
+
+
+- (void)pathState:(BOOL)state {
+    if (state) {
+        NSLog(@"Path is valid and files are found.");
+        // Add your logic to update the UI or state accordingly.
+    } else {
+        NSLog(@"Path is invalid or no files found.");
+    }
+}
+
+
+//- (IBAction)SubmitPath:(NSButton *)sender {
+//    NSString *folderPath = self.pathTextField.stringValue; // Assuming pathTextField is your text field for the folder path.
+//
+//    if (folderPath.length > 0) {
+//        NSMutableArray<NSString *> *extensions = [NSMutableArray array];
+//
+//        if (self.assCheckBox.state == NSControlStateValueOn) {
+//            [extensions addObject:@"ass"];
+//        } else if (self.srtCheckBox.state == NSControlStateValueOn) {
+//            [extensions addObject:@"srt"];
+//        } else if (self.srtAssCheckBox.state == NSControlStateValueOn) {
+//            [extensions addObject:@"srt"];
+//            [extensions addObject:@"ass"];
+//        } else if (self.mkvCheckBox.state == NSControlStateValueOn) {
+//            [extensions addObject:@"mkv"];
+//        } else if (self.mp4CheckBox.state == NSControlStateValueOn) {
+//            [extensions addObject:@"mp4"];
+//        } else if (self.mkvMp4CheckBox.state == NSControlStateValueOn) {
+//            [extensions addObject:@"mkv"];
+//            [extensions addObject:@"mp4"];
+//        }
+//
+//        NSArray<NSString *> *files = [self listFilesInDirectory:folderPath withExtensions:extensions];
+//        if (files.count > 0) {
+//            [self pathState:YES]; // Implement pathState: as per your logic to update the UI.
+//        } else {
+//            NSAlert *alert = [[NSAlert alloc] init];
+//            alert.messageText = @"Warning";
+//            alert.informativeText = @"No files with the selected extensions were found in the folder.";
+//            [alert addButtonWithTitle:@"OK"];
+//            [alert setAlertStyle:NSAlertStyleWarning];
+//            [alert runModal];
+//        }
+//    } else {
+//        NSAlert *alert = [[NSAlert alloc] init];
+//        alert.messageText = @"Warning";
+//        alert.informativeText = @"Please select a folder path first.";
+//        [alert addButtonWithTitle:@"OK"];
+//        [alert setAlertStyle:NSAlertStyleWarning];
+//        [alert runModal];
+//    }
+//}
+
+
+
+
+
+
+- (IBAction)SubmitPath:(NSButton *)sender {
+    NSString *folderPath = self.pathTextField.stringValue; // Assuming pathTextField is your text field for the folder path.
+    
+    if (folderPath.length > 0) {
+        NSMutableArray<NSString *> *extensions = [NSMutableArray array];
+        
+        if (self.assCheckBox.state == NSControlStateValueOn) {
+            [extensions addObject:@"ass"];
+        } else if (self.srtCheckBox.state == NSControlStateValueOn) {
+            [extensions addObject:@"srt"];
+        } else if (self.srtAssCheckBox.state == NSControlStateValueOn) {
+            [extensions addObject:@"srt"];
+            [extensions addObject:@"ass"];
+        } else if (self.mkvCheckBox.state == NSControlStateValueOn) {
+            [extensions addObject:@"mkv"];
+        } else if (self.mp4CheckBox.state == NSControlStateValueOn) {
+            [extensions addObject:@"mp4"];
+        } else if (self.mkvMp4CheckBox.state == NSControlStateValueOn) {
+            [extensions addObject:@"mkv"];
+            [extensions addObject:@"mp4"];
+        }
+        
+        // Fetch files based on selected extensions or fetch all files if no extensions are selected
+        NSArray<NSString *> *files;
+        if (extensions.count > 0) {
+            files = [self listFilesInDirectory:folderPath withExtensions:extensions];
+        } else {
+            files = [self listFilesInDirectory:folderPath withExtensions:nil]; // Passing nil will fetch all files
+        }
+        
+        if (files.count > 0) {
+            [self pathState:YES]; // Implement pathState: as per your logic to update the UI.
+            // Store the files to be displayed in the grid view later
+            self.filesToList = files;
+        } else {
+            NSAlert *alert = [[NSAlert alloc] init];
+            alert.messageText = @"Warning";
+            alert.informativeText = @"No files were found in the folder.";
+            [alert addButtonWithTitle:@"OK"];
+            [alert setAlertStyle:NSAlertStyleWarning];
+            [alert runModal];
+        }
+    } else {
+        NSAlert *alert = [[NSAlert alloc] init];
+        alert.messageText = @"Warning";
+        alert.informativeText = @"Please select a folder path first.";
+        [alert addButtonWithTitle:@"OK"];
+        [alert setAlertStyle:NSAlertStyleWarning];
+        [alert runModal];
+    }
+}
+
+
+
+
+
+
+
+
+
+// ViewController.m
+- (IBAction)dataGridListFile:(NSButton *)sender {
+    // Create and instantiate FileListViewController
+    FileListViewController *fileListViewController = [[FileListViewController alloc] initWithNibName:@"FileListViewController" bundle:nil];
+    
+    // Pass the file list to the new view controller's fileList property
+    fileListViewController.fileList = self.filesToList;  // filesToList in ViewController
+    
+    // Show the view controller (you need to show this inside a container or window)
+    [self presentViewControllerAsModalWindow:fileListViewController];  // For modal presentation, or use other method depending on how you want to present
+}
 
 
 
